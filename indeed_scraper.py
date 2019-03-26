@@ -74,7 +74,7 @@ while True:
 
 # Duplicates aren't checked when appending so drop them here by checking the link column values
 df.drop_duplicates(subset=["Title", "Company", "Location", "Salary"], inplace=True)
-# Sort by salary: df.sort_values("Salary", ascending=False, inplace=True)
+# Sort salary: df.sort_values("Salary", ascending=True, inplace=True)
 
 # Save dataframe to HTML file to view later
 with open('indeed_scraped.html', 'w', encoding='utf-8') as file:
