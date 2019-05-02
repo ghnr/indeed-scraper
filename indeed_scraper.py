@@ -63,14 +63,17 @@ while True:
         df.loc[df.shape[0]] = remove_non_utf8([title, company, location, salary, summary, link])
     
     # If "Next" button is not visible, then there are no more pages to scrape
-    pagination = soup.find('div', class_='pagination').find('span', class_='np', text=re.compile(r'Next'))
-    if not pagination:
+    try:
+        pagination = soup.find('div', class_='pagination').find('span', class_='np', text=re.compile(r'Next'))
+        if not pagination:
+            break
+    except AttributeError:
+        # Only one page available so there is no "Next" or "Previous" button
         break
-    else:
-        # e.g. Page 1 is &start=0, Page 2 is &start=10
-        page_start += 10
-        # Be nice
-        time.sleep(0.1)
+    # e.g. Page 1 is &start=0, Page 2 is &start=10
+    page_start += 10
+    # Be nice
+    time.sleep(0.1)
 
 # Duplicates aren't checked when appending so drop them here by checking the link column values
 df.drop_duplicates(subset=["Title", "Company", "Location", "Salary"], inplace=True)
